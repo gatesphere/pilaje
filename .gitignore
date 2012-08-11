@@ -1,3 +1,7 @@
+# Executables #
+*.exe
+
+# Class Files #
 *.class
 
 # Package Files #
