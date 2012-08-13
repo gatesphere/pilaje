@@ -54,13 +54,56 @@ public class Parser {
     }
     
     // discard comments
+    input = input.split("//", 2)[0];
     
     // selectively split (preserve strings and anonmacros)
+    ArrayList<String> words = new ArrayList<String>();
+    String[] input_split = input.split(" ");
+    StringBuilder gather = new StringBuilder();
+    boolean anonmacro = false;
+    int macrodepth = 0;
+    for(int i = 0; i < input_split.length; i++) {
+      String w = input_split[i];
+      if(w.startsWith("#(")) {
+        anonmacro = true;
+        macrodepth++;
+      }
+      if(anonmacro) gather.append(w + " ");
+      else words.add(w);
+      if(w.endsWith(")")) macrodepth--;
+      if(macrodepth == 0 && anonmacro) {
+        anonmacro = false;
+        words.add(gather.toString().trim());
+        gather = new StringBuilder();
+      }
+    }
+    if(anonmacro) {
+      System.out.println("  >> ERROR: Unterminated anonymous macro. Ignoring all input.");
+      return;
+    }
+    
+    ArrayList<String> words2 = new ArrayList<String>();
+    gather = new StringBuilder();
+    boolean quote = false;
+    for(String w : words) {
+      if(w.startsWith("\"")) quote = true;
+      if(quote) gather.append(w + " ");
+      else words2.add(w);
+      if(w.endsWith("\"")) {
+        quote = false;
+        words2.add(gather.toString().trim());
+        gather = new StringBuilder();
+      }
+    }
+    if(quote) {
+      System.out.println("  >> ERROR: Untermintated string literal. Ignoring all input.");
+      return;
+    }
     
     // run each word
     for(PilajeStack ps : stack_map.values()) ps.backup();
     try{
-      run_word(input);
+      for(String word : words2) run_word(word);
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
       System.out.println("  >> ERROR: Something went wrong.  Reverting all stacks to previous state.");
@@ -83,6 +126,7 @@ public class Parser {
     else if(is_bool(word)) currentStack.push(to_bool(word));
     else if(is_anonmacro(word)) currentStack.push(to_anonmacro(word));
     else if(is_string(word)) currentStack.push(quote(word));
+    else if(is_stack_name(word)) change_stack(word);
     else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
     
     return;
@@ -122,6 +166,19 @@ public class Parser {
   
   private static String to_anonmacro(String word) {
     return word.substring(2,word.length()-1);
+  }
+  
+  private static boolean is_stack_name(String word) {
+    return word.startsWith("$");
+  }
+  
+  private static void change_stack(String word) {
+    PilajeStack s = stack_map.get(word);
+    if(s == null) {
+      s = new PilajeStack(word);
+      stack_map.put(word, s);
+    }
+    currentStack = s;
   }
   
   private static boolean is_string(String word) {
