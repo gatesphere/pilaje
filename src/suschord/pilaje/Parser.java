@@ -18,7 +18,17 @@ public class Parser {
     currentStack = stack_map.get("$main");
     
     // populate builtins
-    
+    token_map.put("...", new Builtin("...") {
+      public void exec() {
+        System.out.println(Parser.currentStack);
+      }
+    });
+    token_map.put("!bye", new Builtin("!bye") {
+      public void exec() {
+        System.out.println("goodbye");
+        REPL.running = false;
+      }
+    });
   }
   
   public static void run_input(String input) {
@@ -27,6 +37,21 @@ public class Parser {
     input = input.trim();
     
     // check for macro definition
+    if(input.startsWith(":")) {
+      Scanner sc = new Scanner(input);
+      String name = sc.next().substring(1);
+      StringBuilder contents = new StringBuilder("");
+      while(sc.hasNext()) contents.append(sc.next() + " ");
+      Object e = token_map.get(name);
+      if(e != null && e instanceof Builtin) {
+        System.out.println("  >> ERROR: Cannot redefine builtin " + name);
+        return;
+      }
+      else if(e != null && e instanceof Macro)
+        System.out.println("  >> WARNING: Redefining macro " + name);
+      token_map.put(name, new Macro(name, contents.toString().trim()));
+      return;
+    }
     
     // discard comments
     
@@ -35,7 +60,7 @@ public class Parser {
     // run each word
     for(PilajeStack ps : stack_map.values()) ps.backup();
     try{
-      
+      run_word(input);
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
       System.out.println("  >> ERROR: Something went wrong.  Reverting all stacks to previous state.");
@@ -44,6 +69,67 @@ public class Parser {
   }
   
   private static void run_word(String word) throws Exception {
+    // look up the token (macro/builtin?)
+    Object token = token_map.get(word);
+    if(token != null) {
+      if(token instanceof Builtin) ((Builtin)token).exec();
+      else if(token instanceof Macro) run_input(((Macro)token).contents);
+      
+      return;
+    }
     
+    // not a token, must be data
+    if(is_number(word)) currentStack.push(to_num(word));
+    else if(is_bool(word)) currentStack.push(to_bool(word));
+    else if(is_anonmacro(word)) currentStack.push(to_anonmacro(word));
+    else if(is_string(word)) currentStack.push(quote(word));
+    else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
+    
+    return;
   }
+  
+  private static boolean is_number(String word) {
+    return is_double(word);
+  }
+  
+  private static boolean is_double(String word) {
+    try {
+      double d = Double.parseDouble(word);
+    } catch (Exception ex) {
+      return false;
+    }
+    return true;
+  }
+  
+  private static double to_num(String word) {
+    try {
+      return Double.parseDouble(word);
+    } catch (Exception ex) {}
+    return 0;
+  }
+  
+  private static boolean is_bool(String word) {
+    return word.equals("true") || word.equals("false");
+  }
+  
+  private static boolean to_bool(String word) {
+    return word.equals("true");
+  }
+  
+  private static boolean is_anonmacro(String word) {
+    return word.startsWith("#(") && word.endsWith(")");
+  }
+  
+  private static String to_anonmacro(String word) {
+    return word.substring(2,word.length()-1);
+  }
+  
+  private static boolean is_string(String word) {
+    return word.startsWith("\"") && word.endsWith("\"");
+  }
+  
+  private static String quote(String word) {
+    return word;
+  }
+  
 }
