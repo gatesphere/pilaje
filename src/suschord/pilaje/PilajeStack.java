@@ -24,6 +24,10 @@ public class PilajeStack {
     return data.pop();
   }
   
+  public void empty() {
+    data.clear();
+  }
+  
   public void push(Object val) {
     data.push(val);
   }

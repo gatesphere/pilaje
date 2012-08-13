@@ -18,15 +18,178 @@ public class Parser {
     currentStack = stack_map.get("$main");
     
     // populate builtins
+    // printing
+    token_map.put(".", new Builtin(".") {
+      public void exec() {
+        if(Parser.currentStack.size() > 0) System.out.println(Parser.currentStack.peek());
+      }
+    });
     token_map.put("...", new Builtin("...") {
       public void exec() {
         System.out.println(Parser.currentStack);
       }
     });
+    
+    // stack manip
+    token_map.put("cls", new Builtin("cls") {
+      public void exec() {
+        Parser.currentStack.empty();
+      }
+    });
+    token_map.put("sz", new Builtin("sz") {
+      public void exec() {
+        double i = Parser.currentStack.size();
+        Parser.currentStack.push(i);
+      }
+    });
+    token_map.put("dup", new Builtin("dup") {
+      public void exec() {
+        if(Parser.currentStack.size() > 0) Parser.currentStack.push(Parser.currentStack.peek());
+      }
+    });
+    token_map.put("pop", new Builtin("pop") {
+      public void exec() {
+        if(Parser.currentStack.size() > 0) Parser.currentStack.pop();
+      }
+    });
+    token_map.put("swap", new Builtin("swap") {
+      public void exec() {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          Parser.currentStack.push(a);
+          Parser.currentStack.push(b);
+        }
+      }
+    });
+    token_map.put("rot", new Builtin("rot") {
+      public void exec() {
+        if(Parser.currentStack.size() > 2) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          Object c = Parser.currentStack.pop();
+          Parser.currentStack.push(b);
+          Parser.currentStack.push(a);
+          Parser.currentStack.push(c);
+        }
+      }
+    });
+    token_map.put("-rot", new Builtin("rot") {
+      public void exec() {
+        Parser.run_input("rot rot");
+      }
+    });
+    token_map.put("over", new Builtin("over") {
+      public void exec() {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          Parser.currentStack.push(b);
+          Parser.currentStack.push(a);
+          Parser.currentStack.push(b);
+        }
+      }
+    });
+    token_map.put("nip", new Builtin("nip") {
+      public void exec() {
+        Parser.run_input("swap pop");
+      }
+    });
+    token_map.put("tuck", new Builtin("tuck") {
+      public void exec() {
+        Parser.run_input("swap over");
+      }
+    });
+    token_map.put("2dup", new Builtin("2dup") {
+      public void exec() {
+        Parser.run_input("over over");
+      }
+    });
+    token_map.put("2pop", new Builtin("2pop") {
+      public void exec() {
+        Parser.run_input("pop pop");
+      }
+    });
+    token_map.put("2swap", new Builtin("2swap") {
+      public void exec() {
+        if(Parser.currentStack.size() > 3) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          Object c = Parser.currentStack.pop();
+          Object d = Parser.currentStack.pop();
+          Parser.currentStack.push(b);
+          Parser.currentStack.push(a);
+          Parser.currentStack.push(d);
+          Parser.currentStack.push(c);
+        }
+      }
+    });
+    token_map.put("2rot", new Builtin("2rot") {
+      public void exec() {
+        if(Parser.currentStack.size() > 5) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          Object c = Parser.currentStack.pop();
+          Object d = Parser.currentStack.pop();
+          Object e = Parser.currentStack.pop();
+          Object f = Parser.currentStack.pop();
+          Parser.currentStack.push(d);
+          Parser.currentStack.push(c);
+          Parser.currentStack.push(b);
+          Parser.currentStack.push(a);
+          Parser.currentStack.push(f);
+          Parser.currentStack.push(e);
+        }
+      }
+    });
+    token_map.put("2-rot", new Builtin("2rot") {
+      public void exec() {
+        Parser.run_input("2rot 2rot");
+      }
+    });
+    token_map.put("2over", new Builtin("2over") {
+      public void exec() {
+        if(Parser.currentStack.size() > 3) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          Object c = Parser.currentStack.pop();
+          Object d = Parser.currentStack.pop();
+          Parser.currentStack.push(d);
+          Parser.currentStack.push(c);
+          Parser.currentStack.push(b);
+          Parser.currentStack.push(a);
+          Parser.currentStack.push(d);
+          Parser.currentStack.push(c);
+        }
+      }
+    });
+    token_map.put("2nip", new Builtin("2nip") {
+      public void exec() {
+        Parser.run_input("2swap 2pop");
+      }
+    });
+    token_map.put("2tuck", new Builtin("2tuck") {
+      public void exec() {
+        Parser.run_input("2swap 2over");
+      }
+    });
+    
+    // meta
     token_map.put("!bye", new Builtin("!bye") {
       public void exec() {
         System.out.println("goodbye");
         REPL.running = false;
+      }
+    });
+    token_map.put("!macros", new Builtin("!macros") {
+      public void exec() {
+        System.out.println("registered macros:");
+        for(Object o : token_map.values()) {
+          if(o instanceof Macro) {
+            Macro m = (Macro)o;
+            System.out.println(m.name + " := " + m.contents);
+          }
+        }
       }
     });
   }

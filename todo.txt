@@ -1,0 +1,34 @@
+to do:
+
+Check for nullpointer/types for all of these!
+Check for enough elements in the stack!
+
+
++
+-
+*
+/
+%
+<<
+>>
+
+=
+<
+>
+<=
+>=
+not
+and
+or
+
+if
+
+nop
+call
+
+!import
+
+-->$stackname // copy top of current stack to $stackname
+<--$stackname // copy top of $stackname to current stack
+->$stackname  // move top of current stack to $stackname
+<-$stackname  // move top of $stackname to current stack
