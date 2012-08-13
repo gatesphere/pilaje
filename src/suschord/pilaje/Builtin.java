@@ -13,6 +13,6 @@ public abstract class Builtin {
     this.name = name;
   }
   
-  public void exec() {};
+  public void exec() throws Exception {};
   
 }

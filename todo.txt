@@ -4,9 +4,6 @@ Check for nullpointer/types for all of these!
 Check for enough elements in the stack!
 
 
-+
--
-*
 /
 %
 <<

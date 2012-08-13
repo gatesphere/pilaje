@@ -174,6 +174,73 @@ public class Parser {
       }
     });
     
+    // arithmetic and string manip
+    token_map.put("+", new Builtin("+") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof String || b instanceof String) {
+            String astr = a.toString();
+            String bstr = b.toString();
+            if(Parser.is_string(astr)) astr = Parser.unquote(astr);
+            if(Parser.is_string(bstr)) bstr = Parser.unquote(bstr);
+            Parser.currentStack.push("\"" + astr + bstr + "\"");
+          } else if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a + (double)b);
+          } else { 
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("-", new Builtin("-") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)b - (double)a);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("*", new Builtin("*") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof String ^ b instanceof String) {
+            String astr = "";
+            double bdbl = 0;
+            StringBuilder bldr = new StringBuilder();
+            if(a instanceof String && b instanceof Double) {
+              astr = a.toString();
+              bdbl = (double)b;
+            } else if(a instanceof Double && b instanceof String) {
+              astr = b.toString();
+              bdbl = (double)a;
+            } else {
+              System.out.println("  >> ERROR: Incorrect types.");
+              throw new Exception();
+            }
+            if(Parser.is_string(astr)) astr = Parser.unquote(astr);
+            for(int i = 0; i < bdbl; i++) bldr.append(astr);
+            Parser.currentStack.push("\"" + bldr.toString() + "\"");
+          } else if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a * (double)b);
+          } else { 
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    
     // meta
     token_map.put("!bye", new Builtin("!bye") {
       public void exec() {
@@ -252,7 +319,7 @@ public class Parser {
       if(w.startsWith("\"")) quote = true;
       if(quote) gather.append(w + " ");
       else words2.add(w);
-      if(w.endsWith("\"")) {
+      if(w.endsWith("\"") && w.length() > 1) {
         quote = false;
         words2.add(gather.toString().trim());
         gather = new StringBuilder();
@@ -344,12 +411,16 @@ public class Parser {
     currentStack = s;
   }
   
-  private static boolean is_string(String word) {
+  public static boolean is_string(String word) {
     return word.startsWith("\"") && word.endsWith("\"");
   }
   
   private static String quote(String word) {
     return word;
+  }
+  
+  public static String unquote(String word) {
+    return word.substring(1,word.length() - 1);
   }
   
 }
