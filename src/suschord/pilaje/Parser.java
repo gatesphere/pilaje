@@ -240,6 +240,218 @@ public class Parser {
         }
       }
     });
+    token_map.put("/", new Builtin("/") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)b / (double)a);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("%", new Builtin("%") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)b % (double)a);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("<<", new Builtin("<<") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)(((Double)b).intValue() << ((Double)a).intValue()));
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put(">>", new Builtin(">>") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)(((Double)b).intValue() >> ((Double)a).intValue()));
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    
+    // boolean logic
+    token_map.put("=", new Builtin("=") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a == (double)b);
+          } else if(a instanceof String && b instanceof String) {
+            Parser.currentStack.push(a.toString().equals(b.toString()));
+          } else if(a instanceof Boolean && b instanceof Boolean) {
+            Parser.currentStack.push((boolean)a == (boolean)b);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put(">", new Builtin(">") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a < (double)b);
+          } else if(a instanceof String && b instanceof String) {
+            Parser.currentStack.push(a.toString().compareTo(b.toString()) < 0);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("<", new Builtin("<") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a > (double)b);
+          } else if(a instanceof String && b instanceof String) {
+            Parser.currentStack.push(a.toString().compareTo(b.toString()) > 0);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put(">=", new Builtin(">=") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a <= (double)b);
+          } else if(a instanceof String && b instanceof String) {
+            Parser.currentStack.push(a.toString().compareTo(b.toString()) <= 0);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("<=", new Builtin("<=") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Double && b instanceof Double) {
+            Parser.currentStack.push((double)a >= (double)b);
+          } else if(a instanceof String && b instanceof String) {
+            Parser.currentStack.push(a.toString().compareTo(b.toString()) >= 0);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    token_map.put("not", new Builtin("not") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 0) {
+          Object a = Parser.currentStack.pop();
+          if(a instanceof Boolean) {
+            Parser.currentStack.push(!(boolean)a);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    }); 
+    token_map.put("and", new Builtin("and") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Boolean && b instanceof Boolean) {
+            Parser.currentStack.push((boolean)a && (boolean)b);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    }); 
+    token_map.put("or", new Builtin("or") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 1) {
+          Object a = Parser.currentStack.pop();
+          Object b = Parser.currentStack.pop();
+          if(a instanceof Boolean && b instanceof Boolean) {
+            Parser.currentStack.push((boolean)a || (boolean)b);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });             
+    
+    // flow control
+    token_map.put("if", new Builtin("if") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 2) {
+          String t = Parser.currentStack.pop().toString();
+          String e = Parser.currentStack.pop().toString();
+          Object c = Parser.currentStack.pop();
+          if(c instanceof Boolean) {
+            boolean condition = (boolean)c;
+            if(condition)  Parser.run_input(t);
+            else Parser.run_input(e);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    
+    // direct calls
+    token_map.put("nop", new Builtin("nop") {
+      public void exec() {}
+    });
+    token_map.put("call", new Builtin("call") {
+      public void exec() {
+        if(Parser.currentStack.size() > 0) {
+          Parser.run_input(Parser.currentStack.pop().toString());
+        }
+      }
+    });
     
     // meta
     token_map.put("!bye", new Builtin("!bye") {
@@ -336,6 +548,7 @@ public class Parser {
       for(String word : words2) run_word(word);
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
+      ex.printStackTrace();
       System.out.println("  >> ERROR: Something went wrong.  Reverting all stacks to previous state.");
     }
     
