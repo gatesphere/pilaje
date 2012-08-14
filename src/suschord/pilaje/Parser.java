@@ -11,7 +11,7 @@ import java.io.*;
 public class Parser {
   private static HashMap<String, Object> token_map = new HashMap<String, Object>();
   private static HashMap<String, PilajeStack> stack_map = new HashMap<String, PilajeStack>();
-  public static PilajeStack currentStack = null;
+  static PilajeStack currentStack = null;
   
   public static void initialize() {
     // create initial stack
@@ -651,7 +651,7 @@ public class Parser {
   
   private static boolean is_double(String word) {
     try {
-      double d = Double.parseDouble(word);
+      Double.parseDouble(word);
     } catch (Exception ex) {
       return false;
     }

@@ -10,7 +10,7 @@ import java.io.*;
 
 public class REPL {
   public static final String version = "pilaje 20120813";
-  public static boolean running = true;
+  static boolean running = true;
   private static final BufferedReader inreader = new BufferedReader(new InputStreamReader(System.in));
   
   public static void start() {

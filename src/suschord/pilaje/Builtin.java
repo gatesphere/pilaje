@@ -7,7 +7,7 @@ package suschord.pilaje;
 import suschord.pilaje.*;
 
 public abstract class Builtin {
-  public String name;
+  private String name;
   
   public Builtin(String name) {
     this.name = name;
