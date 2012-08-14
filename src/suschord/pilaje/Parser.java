@@ -471,6 +471,13 @@ public class Parser {
         }
       }
     });
+    token_map.put("!stacks", new Builtin("!stacks") {
+      public void exec() {
+        System.out.println("registered stacks:");
+        for(PilajeStack ps : stack_map.values())
+          System.out.println(ps.name + "[" + ps.size() + "]");
+      }
+    });
   }
   
   public static void run_input(String input) {
@@ -480,19 +487,28 @@ public class Parser {
     
     // check for macro definition
     if(input.startsWith(":")) {
+      /*
       Scanner sc = new Scanner(input);
       String name = sc.next().substring(1);
       StringBuilder contents = new StringBuilder("");
       while(sc.hasNext()) contents.append(sc.next() + " ");
-      Object e = token_map.get(name);
-      if(e != null && e instanceof Builtin) {
-        System.out.println("  >> ERROR: Cannot redefine builtin " + name);
+      */
+      String[] contents = input.split(" ", 2);
+      String name = contents[0].substring(1);
+      if(is_valid_name(name) && contents.length == 2) {
+        Object e = token_map.get(name);
+        if(e != null && e instanceof Builtin) {
+          System.out.println("  >> ERROR: Cannot redefine builtin " + name);
+          return;
+        }
+        else if(e != null && e instanceof Macro)
+          System.out.println("  >> WARNING: Redefining macro " + name);
+        token_map.put(name, new Macro(name, contents[1].trim()));
+        return;
+      } else {
+        System.out.println("  >> ERROR: Invalid name or contents.");
         return;
       }
-      else if(e != null && e instanceof Macro)
-        System.out.println("  >> WARNING: Redefining macro " + name);
-      token_map.put(name, new Macro(name, contents.toString().trim()));
-      return;
     }
     
     // discard comments
@@ -555,12 +571,17 @@ public class Parser {
   }
   
   private static void run_word(String word) throws Exception {
+    // is it a xfer command?
+    if(is_xfer(word)) {
+      execute_xfer(word);
+      return;
+    }
+    
     // look up the token (macro/builtin?)
     Object token = token_map.get(word);
     if(token != null) {
       if(token instanceof Builtin) ((Builtin)token).exec();
       else if(token instanceof Macro) run_input(((Macro)token).contents);
-      
       return;
     }
     
@@ -573,6 +594,48 @@ public class Parser {
     else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
     
     return;
+  }
+  
+  private static boolean is_xfer(String word) {
+    String[] components = word.split("\\$", 2);
+    return components.length == 2 && 
+           (components[0].equals("-->") || 
+            components[0].equals("->")  ||
+            components[0].equals("<--") || 
+            components[0].equals("<-")) &&
+           is_valid_name(components[1]);      
+  }
+  
+  private static boolean is_valid_name(String name) {
+    return (!(name.contains(" ") || name.contains("!") || 
+              name.contains(":") || name.contains("$") ||
+              name.contains("(") || name.contains(")") ||
+              name.contains("#") || name.contains("\"")||
+              name.length() < 1));
+  }
+  
+  private static void execute_xfer(String word) throws Exception {
+    String[] components = word.split("\\$", 2);
+    PilajeStack target = stack_map.get("$" + components[1]);
+    // from target to current
+    if(components[0].contains("<")) {
+      if(target == null) {
+        System.out.println("  >> ERROR: Target stack does not exist.");
+        throw new Exception();
+      } else {
+        if(components[0].contains("--")) run_input(target.name + " dup " + currentStack.name);
+        currentStack.push(target.pop());
+      }
+    }
+    // from current to target    
+    else if (components[0].contains(">")) {
+      if(components[0].contains("--")) run_input("dup");
+      if(target == null) {
+        target = new PilajeStack("$" + components[1]);
+        stack_map.put(target.name, target);
+      }
+      target.push(currentStack.pop());      
+    }
   }
   
   private static boolean is_number(String word) {
@@ -612,7 +675,7 @@ public class Parser {
   }
   
   private static boolean is_stack_name(String word) {
-    return word.startsWith("$");
+    return word.startsWith("$") && is_valid_name(word.substring(1));
   }
   
   private static void change_stack(String word) {

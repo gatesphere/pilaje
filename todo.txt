@@ -5,11 +5,10 @@ Check for enough elements in the stack!
 
 !import (and therefore, scripting support)
 
--->$stackname // copy top of current stack to $stackname
-<--$stackname // copy top of $stackname to current stack
-->$stackname  // move top of current stack to $stackname
-<-$stackname  // move top of $stackname to current stack
-
 commandline - script mode, switches, version, etc.
 
+way to trash a stack from the stack_map
+
 actors/concurrency?
+
+number bases (0b, 0o, 0x)

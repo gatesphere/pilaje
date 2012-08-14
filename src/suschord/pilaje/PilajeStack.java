@@ -17,11 +17,13 @@ public class PilajeStack {
   }
   
   public Object peek() {
-    return data.peek();
+    if(size() > 0) return data.peek();
+    else return null;
   }
   
   public Object pop() {
-    return data.pop();
+    if(size() > 0) return data.pop();
+    else return null;
   }
   
   public void empty() {
@@ -29,7 +31,7 @@ public class PilajeStack {
   }
   
   public void push(Object val) {
-    data.push(val);
+    if(val != null) data.push(val);
   }
   
   public int size() {
