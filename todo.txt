@@ -2,9 +2,6 @@ to do:
 
 commandline - script mode, switches, version, etc.
 
-way to trash a stack from the stack_map
-way to trash a macro from the token_map
-
 actors/concurrency?
 
 number bases (0b, 0o, 0x)

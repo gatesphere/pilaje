@@ -475,8 +475,10 @@ public class Parser {
     token_map.put("!stacks", new Builtin("!stacks") {
       public void exec() {
         System.out.println("registered stacks:");
-        for(PilajeStack ps : stack_map.values())
+        for(PilajeStack ps : stack_map.values()) {
+          if(ps == currentStack) System.out.print("*");
           System.out.println(ps.name + "[" + ps.size() + "]");
+        }
       }
     });
     token_map.put("!import", new Builtin("!import") {
@@ -568,7 +570,7 @@ public class Parser {
       for(String word : words2) run_word(word);
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
-      ex.printStackTrace();
+      //ex.printStackTrace();
       System.out.println("  >> ERROR: Something went wrong.  Reverting all stacks to previous state.");
     }
     
@@ -581,6 +583,12 @@ public class Parser {
     // is it a xfer command?
     if(is_xfer(word)) {
       execute_xfer(word);
+      return;
+    }
+    
+    // is it a deletion?
+    if(is_deletion(word)) {
+      execute_deletion(word);
       return;
     }
     
@@ -618,7 +626,7 @@ public class Parser {
               name.contains(":") || name.contains("$") ||
               name.contains("(") || name.contains(")") ||
               name.contains("#") || name.contains("\"")||
-              name.length() < 1));
+              name.contains("~") || name.length() < 1));
   }
   
   private static void execute_xfer(String word) throws Exception {
@@ -643,6 +651,41 @@ public class Parser {
       }
       target.push(currentStack.pop());      
     }
+  }
+  
+  private static boolean is_deletion(String word) {
+    return word.startsWith("~") && 
+           (is_valid_name(word.substring(1)) || 
+            is_stack_name(word.substring(1)));
+  }
+  
+  private static void execute_deletion(String word) throws Exception {
+    word = word.substring(1);
+    if(is_stack_name(word)) remove_stack(word);
+    else remove_macro(word);
+  }
+  
+  private static void remove_stack(String word) throws Exception {
+    if(word.equals("$main")) {
+      System.out.println("  >> ERROR: Cannot delete stack $main.");
+      throw new Exception();
+    }
+    if(currentStack.name.equals(word)) {
+      System.out.println("  >> WARNING: Deleting current stack, switching to $main.");
+      currentStack = stack_map.get("$main");
+    }
+    PilajeStack ps = stack_map.get(word);
+    if(ps != null) stack_map.remove(word);
+  }
+  
+  private static void remove_macro(String word) throws Exception {
+    Object o = token_map.get(word);
+    if(o == null) return;
+    if(o instanceof Builtin) {
+      System.out.println("  >> ERROR: Cannot delete builtins.");
+      throw new Exception();
+    }
+    if(o instanceof Macro) token_map.remove(word);
   }
   
   private static boolean is_number(String word) {
@@ -691,7 +734,7 @@ public class Parser {
       s = new PilajeStack(word);
       stack_map.put(word, s);
     }
-    currentStack = s;
+    currentStack = stack_map.get(word);
   }
   
   public static boolean is_string(String word) {

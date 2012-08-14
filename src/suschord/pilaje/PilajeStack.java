@@ -9,7 +9,7 @@ import java.util.*;
 
 public class PilajeStack {
   private Stack<Object> data = new Stack<Object>();
-  private Stack<Object> backup_data = null;
+  private Stack<Object> backup_data = new Stack<Object>();
   public String name = "";
   
   public PilajeStack(String name) {
