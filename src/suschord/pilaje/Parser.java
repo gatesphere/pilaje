@@ -622,11 +622,12 @@ public class Parser {
   }
   
   private static boolean is_valid_name(String name) {
-    return (!(name.contains(" ") || name.contains("!") || 
-              name.contains(":") || name.contains("$") ||
-              name.contains("(") || name.contains(")") ||
-              name.contains("#") || name.contains("\"")||
-              name.contains("~") || name.length() < 1));
+    return (!(name.contains(" ")  || name.contains("!")  || 
+              name.contains(":")  || name.contains("$")  ||
+              name.contains("(")  || name.contains(")")  ||
+              name.contains("#")  || name.contains("\"") ||
+              name.contains("~")  || name.contains("->") ||
+              name.contains("<-") || name.length() < 1));
   }
   
   private static void execute_xfer(String word) throws Exception {
