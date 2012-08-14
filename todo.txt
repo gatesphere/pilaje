@@ -1,13 +1,9 @@
 to do:
 
-Check for nullpointer/types for all of these!
-Check for enough elements in the stack!
-
-!import (and therefore, scripting support)
-
 commandline - script mode, switches, version, etc.
 
 way to trash a stack from the stack_map
+way to trash a macro from the token_map
 
 actors/concurrency?
 

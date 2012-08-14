@@ -6,6 +6,7 @@ package suschord.pilaje;
 
 import suschord.pilaje.*;
 import java.util.*;
+import java.io.*;
 
 public class Parser {
   private static HashMap<String, Object> token_map = new HashMap<String, Object>();
@@ -478,6 +479,15 @@ public class Parser {
           System.out.println(ps.name + "[" + ps.size() + "]");
       }
     });
+    token_map.put("!import", new Builtin("!import") {
+      public void exec() throws Exception {
+        String filename = unquote(currentStack.pop().toString());
+        Scanner sc = new Scanner(new File(filename));
+        while(sc.hasNextLine())
+          run_input(sc.nextLine());
+        sc.close();
+      }
+    });
   }
   
   public static void run_input(String input) {
@@ -487,12 +497,6 @@ public class Parser {
     
     // check for macro definition
     if(input.startsWith(":")) {
-      /*
-      Scanner sc = new Scanner(input);
-      String name = sc.next().substring(1);
-      StringBuilder contents = new StringBuilder("");
-      while(sc.hasNext()) contents.append(sc.next() + " ");
-      */
       String[] contents = input.split(" ", 2);
       String name = contents[0].substring(1);
       if(is_valid_name(name) && contents.length == 2) {
@@ -571,6 +575,9 @@ public class Parser {
   }
   
   private static void run_word(String word) throws Exception {
+    // is it anything at all?
+    if(word.trim().length() == 0) return;
+    
     // is it a xfer command?
     if(is_xfer(word)) {
       execute_xfer(word);
