@@ -2,11 +2,11 @@ to do:
 
 commandline - script mode, switches, version, etc.
 
-waiting (pause builtin)
+name validation: prevent data from acting as a macro/stack name
+  -> :123 blah // currently works
 
 unescape strings
 
-system calls (push the return value to the stack)
 network i/o
 file i/o
 concurrency

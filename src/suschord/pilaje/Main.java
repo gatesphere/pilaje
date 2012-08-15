@@ -7,6 +7,8 @@ package suschord.pilaje;
 import suschord.pilaje.*;
 
 public class Main {
+ 
+  static boolean display_version = true;
 
   public static void main(String[] args) {
     REPL.start();

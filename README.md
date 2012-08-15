@@ -21,3 +21,16 @@ You'll need the following to compile pilaje:
 
   * A recent JDK.
 
+
+
+New Features
+------------
+Stacks changable on the fly ($stackname)
+Moving variables between stacks (->, -->, <-, <--)
+Delete a macro/stack (~name)
+New builtins:
+  sz
+  syscall
+  pause
+  !stacks
+Name validation

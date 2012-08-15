@@ -454,6 +454,32 @@ public class Parser {
       }
     });
     
+    // system calls
+    token_map.put("syscall", new Builtin("syscall") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 0) {
+          String cmd = Parser.currentStack.pop().toString();
+          Process prc = Runtime.getRuntime().exec(cmd);
+          prc.waitFor();
+          Parser.currentStack.push((double)prc.exitValue());
+        }
+      }
+    });
+    token_map.put("pause", new Builtin("pause") {
+      public void exec() throws Exception {
+        if(Parser.currentStack.size() > 0) {
+          Object o = Parser.currentStack.pop();
+          if(o instanceof Double) {
+            int millis = ((Double)o).intValue();
+            Thread.sleep(millis);
+          } else {
+            System.out.println("  >> ERROR: Incorrect types.");
+            throw new Exception();
+          }
+        }
+      }
+    });
+    
     // meta
     token_map.put("!bye", new Builtin("!bye") {
       public void exec() {

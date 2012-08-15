@@ -9,12 +9,12 @@ import java.util.*;
 import java.io.*;
 
 public class REPL {
-  public static final String version = "pilaje 20120814";
+  public static final String version = "pilaje 20120815";
   static boolean running = true;
   private static final BufferedReader inreader = new BufferedReader(new InputStreamReader(System.in));
   
   public static void start() {
-    System.out.println(version);
+    if(Main.display_version) System.out.println(version);
     Parser.initialize();
     
     while (running) {
