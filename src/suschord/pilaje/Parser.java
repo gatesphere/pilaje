@@ -690,7 +690,7 @@ public class Parser {
   }
   
   private static boolean is_number(String word) {
-    return is_double(word);
+    return is_double(word) || is_binary(word) || is_octal(word) || is_hex(word);
   }
   
   private static boolean is_double(String word) {
@@ -702,10 +702,47 @@ public class Parser {
     return true;
   }
   
-  private static double to_num(String word) {
+  private static boolean is_binary(String word) {
     try {
-      return Double.parseDouble(word);
-    } catch (Exception ex) {}
+      Integer.parseInt(word.substring(2), 2);
+      return word.startsWith("0b");
+    } catch (Exception ex) {
+        return false;
+    }
+  }
+  
+  private static boolean is_octal(String word) {
+    try {
+      Integer.parseInt(word.substring(2), 8);
+      return word.startsWith("0o");
+    } catch (Exception ex) {
+        return false;
+    }
+  }
+  
+  private static boolean is_hex(String word) {
+    try {
+      Integer.parseInt(word.substring(2), 16);
+      return word.startsWith("0x");
+    } catch (Exception ex) {
+        return false;
+    }
+  }
+  
+  private static double to_num(String word) {
+    int radix = 10;
+    if(is_binary(word)) radix = 2;
+    else if(is_octal(word)) radix = 8;
+    else if(is_hex(word)) radix = 16;
+    if(radix != 10) {
+      try {
+        return new Double(Integer.parseInt(word.substring(2), radix));
+      } catch (Exception ex) {}
+    } else {
+      try {
+        return Double.parseDouble(word);
+      } catch (Exception ex) {}
+    }
     return 0;
   }
   
