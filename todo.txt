@@ -2,12 +2,7 @@ to do:
 
 commandline - script mode, switches, version, etc.
 
-restructure parser: move large chunks out to a utility class
-
-name validation: prevent data from acting as a macro/stack name
-  -> :123 blah // currently works
-
-unescape strings
+parser - regex pattern match for tokens (Or maybe StreamTokenizer?)
 
 network i/o
 file i/o

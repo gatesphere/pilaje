@@ -6,6 +6,7 @@ package suschord.pilaje;
 
 import suschord.pilaje.*;
 import java.util.*;
+import java.util.regex.*;
 import java.io.*;
 
 public class Parser {
@@ -184,8 +185,8 @@ public class Parser {
           if(a instanceof String || b instanceof String) {
             String astr = a.toString();
             String bstr = b.toString();
-            if(Parser.is_string(astr)) astr = Parser.unquote(astr);
-            if(Parser.is_string(bstr)) bstr = Parser.unquote(bstr);
+            if(Util.is_string(astr)) astr = Util.unquote(astr);
+            if(Util.is_string(bstr)) bstr = Util.unquote(bstr);
             Parser.currentStack.push("\"" + astr + bstr + "\"");
           } else if(a instanceof Double && b instanceof Double) {
             Parser.currentStack.push((double)a + (double)b);
@@ -229,7 +230,7 @@ public class Parser {
               System.out.println("  >> ERROR: Incorrect types.");
               throw new Exception();
             }
-            if(Parser.is_string(astr)) astr = Parser.unquote(astr);
+            if(Util.is_string(astr)) astr = Util.unquote(astr);
             for(int i = 0; i < bdbl; i++) bldr.append(astr);
             Parser.currentStack.push("\"" + bldr.toString() + "\"");
           } else if(a instanceof Double && b instanceof Double) {
@@ -509,7 +510,7 @@ public class Parser {
     });
     token_map.put("!import", new Builtin("!import") {
       public void exec() throws Exception {
-        String filename = unquote(currentStack.pop().toString());
+        String filename = Util.unquote(currentStack.pop().toString());
         Scanner sc = new Scanner(new File(filename));
         while(sc.hasNextLine())
           run_input(sc.nextLine());
@@ -527,7 +528,7 @@ public class Parser {
     if(input.startsWith(":")) {
       String[] contents = input.split(" ", 2);
       String name = contents[0].substring(1);
-      if(is_valid_name(name) && contents.length == 2) {
+      if(Util.is_valid_name(name) && contents.length == 2) {
         Object e = token_map.get(name);
         if(e != null && e instanceof Builtin) {
           System.out.println("  >> ERROR: Cannot redefine builtin " + name);
@@ -573,6 +574,26 @@ public class Parser {
     }
     
     ArrayList<String> words2 = new ArrayList<String>();
+    /*
+    StringBuilder sb = new StringBuilder();
+    for(String w : words) sb.append(w + " ");
+    try {
+      StreamTokenizer st = new StreamTokenizer(new StringReader(sb.toString()));
+      st.quoteChar('\"');
+      while(st.nextToken() != StreamTokenizer.TT_EOF) words2.add(st.sval);
+    } catch (Exception ex) {}
+    */
+    /*
+    StringBuilder sb = new StringBuilder();
+    for(String w : words) sb.append(w + " ");
+    Pattern pattern = Pattern.compile("([^ \"]*)|(\"[^\"]*\")");
+    Matcher matcher = pattern.matcher(sb.toString());
+    while (matcher.find()) {
+      String str = matcher.group();
+      words2.add(str);
+      System.out.println(str);
+    }
+    */
     gather = new StringBuilder();
     boolean quote = false;
     for(String w : words) {
@@ -607,13 +628,13 @@ public class Parser {
     if(word.trim().length() == 0) return;
     
     // is it a xfer command?
-    if(is_xfer(word)) {
+    if(Util.is_xfer(word)) {
       execute_xfer(word);
       return;
     }
     
     // is it a deletion?
-    if(is_deletion(word)) {
+    if(Util.is_deletion(word)) {
       execute_deletion(word);
       return;
     }
@@ -627,33 +648,14 @@ public class Parser {
     }
     
     // not a token, must be data
-    if(is_number(word)) currentStack.push(to_num(word));
-    else if(is_bool(word)) currentStack.push(to_bool(word));
-    else if(is_anonmacro(word)) currentStack.push(to_anonmacro(word));
-    else if(is_string(word)) currentStack.push(quote(word));
-    else if(is_stack_name(word)) change_stack(word);
+    if(Util.is_number(word)) currentStack.push(Util.to_num(word));
+    else if(Util.is_bool(word)) currentStack.push(Util.to_bool(word));
+    else if(Util.is_anonmacro(word)) currentStack.push(Util.to_anonmacro(word));
+    else if(Util.is_string(word)) currentStack.push(Util.quote(Util.unescape(word)));
+    else if(Util.is_stack_name(word)) change_stack(word);
     else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
     
     return;
-  }
-  
-  private static boolean is_xfer(String word) {
-    String[] components = word.split("\\$", 2);
-    return components.length == 2 && 
-           (components[0].equals("-->") || 
-            components[0].equals("->")  ||
-            components[0].equals("<--") || 
-            components[0].equals("<-")) &&
-           is_valid_name(components[1]);      
-  }
-  
-  private static boolean is_valid_name(String name) {
-    return (!(name.contains(" ")  || name.contains("!")  || 
-              name.contains(":")  || name.contains("$")  ||
-              name.contains("(")  || name.contains(")")  ||
-              name.contains("#")  || name.contains("\"") ||
-              name.contains("~")  || name.contains("->") ||
-              name.contains("<-") || name.length() < 1));
   }
   
   private static void execute_xfer(String word) throws Exception {
@@ -680,15 +682,9 @@ public class Parser {
     }
   }
   
-  private static boolean is_deletion(String word) {
-    return word.startsWith("~") && 
-           (is_valid_name(word.substring(1)) || 
-            is_stack_name(word.substring(1)));
-  }
-  
   private static void execute_deletion(String word) throws Exception {
     word = word.substring(1);
-    if(is_stack_name(word)) remove_stack(word);
+    if(Util.is_stack_name(word)) remove_stack(word);
     else remove_macro(word);
   }
   
@@ -715,83 +711,6 @@ public class Parser {
     if(o instanceof Macro) token_map.remove(word);
   }
   
-  private static boolean is_number(String word) {
-    return is_double(word) || is_binary(word) || is_octal(word) || is_hex(word);
-  }
-  
-  private static boolean is_double(String word) {
-    try {
-      Double.parseDouble(word);
-    } catch (Exception ex) {
-      return false;
-    }
-    return true;
-  }
-  
-  private static boolean is_binary(String word) {
-    try {
-      Integer.parseInt(word.substring(2), 2);
-      return word.startsWith("0b");
-    } catch (Exception ex) {
-        return false;
-    }
-  }
-  
-  private static boolean is_octal(String word) {
-    try {
-      Integer.parseInt(word.substring(2), 8);
-      return word.startsWith("0o");
-    } catch (Exception ex) {
-        return false;
-    }
-  }
-  
-  private static boolean is_hex(String word) {
-    try {
-      Integer.parseInt(word.substring(2), 16);
-      return word.startsWith("0x");
-    } catch (Exception ex) {
-        return false;
-    }
-  }
-  
-  private static double to_num(String word) {
-    int radix = 10;
-    if(is_binary(word)) radix = 2;
-    else if(is_octal(word)) radix = 8;
-    else if(is_hex(word)) radix = 16;
-    if(radix != 10) {
-      try {
-        return new Double(Integer.parseInt(word.substring(2), radix));
-      } catch (Exception ex) {}
-    } else {
-      try {
-        return Double.parseDouble(word);
-      } catch (Exception ex) {}
-    }
-    return 0;
-  }
-  
-  private static boolean is_bool(String word) {
-    return word.equals("true") || word.equals("false");
-  }
-  
-  private static boolean to_bool(String word) {
-    return word.equals("true");
-  }
-  
-  private static boolean is_anonmacro(String word) {
-    return word.startsWith("#(") && word.endsWith(")");
-  }
-  
-  private static String to_anonmacro(String word) {
-    return word.substring(2,word.length()-1);
-  }
-  
-  private static boolean is_stack_name(String word) {
-    return word.startsWith("$") && is_valid_name(word.substring(1));
-  }
-  
   private static void change_stack(String word) {
     PilajeStack s = stack_map.get(word);
     if(s == null) {
@@ -800,17 +719,4 @@ public class Parser {
     }
     currentStack = stack_map.get(word);
   }
-  
-  public static boolean is_string(String word) {
-    return word.startsWith("\"") && word.endsWith("\"");
-  }
-  
-  private static String quote(String word) {
-    return word;
-  }
-  
-  public static String unquote(String word) {
-    return word.substring(1,word.length() - 1);
-  }
-  
 }
