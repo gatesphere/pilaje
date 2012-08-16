@@ -574,33 +574,13 @@ public class Parser {
     }
     
     ArrayList<String> words2 = new ArrayList<String>();
-    /*
-    StringBuilder sb = new StringBuilder();
-    for(String w : words) sb.append(w + " ");
-    try {
-      StreamTokenizer st = new StreamTokenizer(new StringReader(sb.toString()));
-      st.quoteChar('\"');
-      while(st.nextToken() != StreamTokenizer.TT_EOF) words2.add(st.sval);
-    } catch (Exception ex) {}
-    */
-    /*
-    StringBuilder sb = new StringBuilder();
-    for(String w : words) sb.append(w + " ");
-    Pattern pattern = Pattern.compile("([^ \"]*)|(\"[^\"]*\")");
-    Matcher matcher = pattern.matcher(sb.toString());
-    while (matcher.find()) {
-      String str = matcher.group();
-      words2.add(str);
-      System.out.println(str);
-    }
-    */
     gather = new StringBuilder();
     boolean quote = false;
     for(String w : words) {
       if(w.startsWith("\"")) quote = true;
       if(quote) gather.append(w + " ");
       else words2.add(w);
-      if(w.endsWith("\"") && w.length() > 1) {
+      if(w.endsWith("\"") && !w.endsWith("\\\"") && w.length() > 1) {
         quote = false;
         words2.add(gather.toString().trim());
         gather = new StringBuilder();
@@ -651,7 +631,7 @@ public class Parser {
     if(Util.is_number(word)) currentStack.push(Util.to_num(word));
     else if(Util.is_bool(word)) currentStack.push(Util.to_bool(word));
     else if(Util.is_anonmacro(word)) currentStack.push(Util.to_anonmacro(word));
-    else if(Util.is_string(word)) currentStack.push(Util.quote(Util.unescape(word)));
+    else if(Util.is_string(word)) currentStack.push(Util.unescape(Util.quote(word)));
     else if(Util.is_stack_name(word)) change_stack(word);
     else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
     

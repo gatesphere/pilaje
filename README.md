@@ -34,3 +34,5 @@ New builtins:
   pause
   !stacks
 Name validation
+Proper string handling (including escaped characters and space preservation...)
+

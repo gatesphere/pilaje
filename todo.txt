@@ -2,8 +2,6 @@ to do:
 
 commandline - script mode, switches, version, etc.
 
-parser - regex pattern match for tokens (Or maybe StreamTokenizer?)
-
 network i/o
 file i/o
 concurrency

@@ -128,6 +128,7 @@ public class Util {
   
   static String unescape(String word) {
     return word.replace("\\t","\t").replace("\\r","\r")
-               .replace("\\f", "\f").replace("\\n", "\n");
+               .replace("\\f", "\f").replace("\\n", "\n")
+               .replace("\\\"", "\"");
   }
 }
