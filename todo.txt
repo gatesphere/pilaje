@@ -1,6 +1,6 @@
 to do:
 
-commandline - script mode, switches, version, etc.
+User input
 
 network i/o
 file i/o
