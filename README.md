@@ -313,11 +313,11 @@ be escaped.
 pila allows some limited meta-programming, via the fact that both macros and anonymous 
 macros are allowed to define new macros.  For example:
 
-    [0]> :macro1 #(:macro2 "I'm macro2, and I didn't exist when macro1 was called!" . pop) call
-    [0]> macro2
+    $main[0]> :macro1 #(:macro2 "I'm macro2, and I didn't exist when macro1 was called!" . pop) call
+    $main[0]> macro2
       >> ERROR: Unknown word, ignoring: macro2
-    [0]> macro1
-    [0]> macro2
+    $main[0]> macro1
+    $main[0]> macro2
     "I'm macro2, and I didn't exist when macro1 was called!"
     
 You may be able to use this cleverly.
