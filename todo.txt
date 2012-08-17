@@ -2,6 +2,23 @@ to do:
 
 User input
 
+Throwaway temp stacks: any stackname that starts with $___ can be used in a macro, and will
+be deleted upon the macro's completion.
+
+Multi-line commands--line ends with \, not done yet.  Compiled to a single line.
+
+Expression replacement in macros: something like &0 would mean "the value at top of the stack"
+such that
+
+    :move pop #(->$___temp) foreach $___temp #(->&0) foreach &0 
+    1 2 3 "$new" move
+
+would assign "$new" to &0, replace all copies of &0 in the macro with $new,
+and then pop the top bit of information, and move to a new stack, preserving
+order... $main = []<=, and $new = [1.0, 2.0, 3.0]<=
+&x would have no meaning outside of macros.
+
+
 network i/o
 file i/o
 concurrency
