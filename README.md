@@ -284,7 +284,7 @@ is the order of the day for looping.  Note: the standard library provides the `n
 macro, which will perform an action a specified number of times.
 
 **Script file support**
-You can run a file of valid pila words by placing it's relative path as a string
+You can run a file of valid pilaje words by placing it's relative path as a string
 on the stack, and then running the `!import` word.
 
 **Comments**
@@ -310,7 +310,7 @@ Single quotes (`'`) have no meaning in pilaje, so they do not need to
 be escaped.
 
 **Meta-programming**
-pila allows some limited meta-programming, via the fact that both macros and anonymous 
+pilaje allows some limited meta-programming, via the fact that both macros and anonymous 
 macros are allowed to define new macros.  For example:
 
     $main[0]> :macro1 #(:macro2 "I'm macro2, and I didn't exist when macro1 was called!" . pop) call
