@@ -304,7 +304,7 @@ Character Sequence | Meaning
 \f                 | Insert a linefeed character.
 \n                 | Insert a newline character.
 \"                 | Insert a literal double-quote.
-\\                 | Insert a literal backslash.
+\\\\               | Insert a literal backslash.
 
 Single quotes (`'`) have no meaning in pilaje, so they do not need to
 be escaped.
