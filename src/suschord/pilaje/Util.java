@@ -119,7 +119,7 @@ public class Util {
   }
   
   static String quote(String word) {
-    return word;
+    return "\"" + word + "\"";
   }
   
   static String unquote(String word) {

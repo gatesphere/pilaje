@@ -1,0 +1,8 @@
+Name: suschord/pilaje/
+Specification-Title: pilaje
+Specification-Version: 0.1
+Specification-Vendor: Jacob Peck
+Implementation-Title: suschord.pilaje
+Implementation-Version: 0.1
+Implementation-Vendor: Jacob Peck
+Main-Class: suschord.pilaje.Main

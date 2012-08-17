@@ -1,3 +1,6 @@
+# logs #
+.mkjar_log
+
 # Executables #
 *.exe
 

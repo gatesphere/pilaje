@@ -631,7 +631,7 @@ public class Parser {
     if(Util.is_number(word)) currentStack.push(Util.to_num(word));
     else if(Util.is_bool(word)) currentStack.push(Util.to_bool(word));
     else if(Util.is_anonmacro(word)) currentStack.push(Util.to_anonmacro(word));
-    else if(Util.is_string(word)) currentStack.push(Util.unescape(Util.quote(word)));
+    else if(Util.is_string(word)) currentStack.push(Util.unescape(word));
     else if(Util.is_stack_name(word)) change_stack(word);
     else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
     

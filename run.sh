@@ -7,13 +7,10 @@
 ##
 
 # variables
-CLASSDIR=classes/
-MAIN=suschord.pilaje.Main
+JARFILE=pilaje.jar
 
 # run 
-cd $CLASSDIR
-java $MAIN $1
-cd ..
+java -jar $JARFILE $@
 
 # exit gracefully
 exit 0
