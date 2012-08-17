@@ -43,6 +43,11 @@ Anonymous macros open up the possibilities for meta-programming.  Here's a parti
 
     :a #(:b a) call b
 
+License
+-------
+BSD.  See [license/license.txt](https://raw.github.com/gatesphere/pilaje/master/license/license.txt)
+for details.
+
 Requirements
 ------------
 
