@@ -511,10 +511,7 @@ public class Parser {
     token_map.put("!import", new Builtin("!import") {
       public void exec() throws Exception {
         String filename = Util.unquote(currentStack.pop().toString());
-        Scanner sc = new Scanner(new File(filename));
-        while(sc.hasNextLine())
-          run_input(sc.nextLine());
-        sc.close();
+        REPL.get_script_input(filename);
       }
     });
   }
@@ -594,7 +591,8 @@ public class Parser {
     // run each word
     for(PilajeStack ps : stack_map.values()) ps.backup();
     try{
-      for(String word : words2) run_word(word);
+      for(String word : words2)
+        run_word(word);
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
       //ex.printStackTrace();
@@ -623,7 +621,10 @@ public class Parser {
     Object token = token_map.get(word);
     if(token != null) {
       if(token instanceof Builtin) ((Builtin)token).exec();
-      else if(token instanceof Macro) run_input(((Macro)token).contents);
+      else if(token instanceof Macro) {
+        run_input(((Macro)token).contents);
+        remove_temp_stacks();
+      }
       return;
     }
     
@@ -636,6 +637,13 @@ public class Parser {
     else System.out.println("  >> ERROR: Unknown word, ignoring " + word );
     
     return;
+  }
+  
+  private static void remove_temp_stacks() {
+    for(String s : stack_map.keySet())
+      try {
+        if(s.startsWith("$___")) remove_stack(s);
+      } catch (Exception ex) {}
   }
   
   private static void execute_xfer(String word) throws Exception {

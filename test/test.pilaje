@@ -1,14 +1,25 @@
 // sum a stack
-:sum_stack sz 1 = #(+ sum_stack) #(nop) if
+:sum_stack \
+  sz 1 = \
+  #(+ sum_stack) \
+  #(nop) \
+  if
 
 // average a stack
-:avg_stack sz ->$___temp sum_stack <-$___temp ~$___temp /
+:avg_stack \
+  sz ->$___temp \
+  sum_stack <-$___temp 
+  ~$___temp /
 
 // do something for every element of a stack
 :foreach sz 1 = #(tuck call foreach) #(pop) if
 
 // reverse stack
-:reverse #(->$temp_1) foreach $temp_1 #(->$temp_2) foreach $temp_2 #(->$main) foreach $main ~$temp_1 ~$temp_2
+:reverse \
+  #(->$___temp_1) foreach \
+  $___temp_1 #(->$___temp_2) foreach \
+  $___temp_2 #(->$main) foreach\
+  $main
 
 // test
 1 2 3 4 3 5 3 sum_stack . cls

@@ -2,10 +2,7 @@ to do:
 
 User input
 
-Throwaway temp stacks: any stackname that starts with $___ can be used in a macro, and will
-be deleted upon the macro's completion.
-
-Multi-line commands--line ends with \, not done yet.  Compiled to a single line.
+Isolate temp stacks during macro execution, i.e. $___temp in :foo != $___temp in :bar.
 
 Expression replacement in macros: something like &0 would mean "the value at top of the stack"
 such that

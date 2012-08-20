@@ -15,9 +15,9 @@ public class REPL {
   public static void start() {
     Parser.initialize();
     
-    while (running) {
+    while (running)
       run_input(get_input());
-    }
+      
     System.exit(0);
   }
   
@@ -30,10 +30,36 @@ public class REPL {
   public static String get_input() {
     prompt();
     String line = "";
-    try {
-      line = inreader.readLine();
-    } catch (Exception ex) {}
+    boolean go_again = true;
+    do {
+      try {
+        line = line + inreader.readLine();
+        if (line.endsWith("\\")) {
+          line = line.substring(0, line.length() - 1);
+          System.out.print("> ");
+        } else go_again = false;
+      } catch (Exception ex) {}
+    } while (go_again);
     return line;
+  }
+  
+  public static void get_script_input(String filename) throws Exception {
+    Scanner sc = new Scanner(new File(filename));
+    String line;
+    boolean go_again;
+    while (sc.hasNextLine()) {
+      go_again = true;
+      line = "";
+      do {
+        if(sc.hasNextLine()) {
+          line = line + sc.nextLine();
+          if(line.endsWith("\\"))
+            line = line.substring(0, line.length() - 1);
+          else go_again = false;
+        } else go_again = false;
+      } while (go_again);
+      Parser.run_input(line);
+    }
   }
   
   public static void prompt() {
