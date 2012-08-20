@@ -8,8 +8,8 @@
 // average a stack
 :avg_stack \
   sz ->$___temp \
-  sum_stack <-$___temp 
-  ~$___temp /
+  sum_stack <-$___temp \
+  /
 
 // do something for every element of a stack
 :foreach sz 1 = #(tuck call foreach) #(pop) if

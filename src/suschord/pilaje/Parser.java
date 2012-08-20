@@ -12,6 +12,7 @@ import java.io.*;
 public class Parser {
   private static HashMap<String, Object> token_map = new HashMap<String, Object>();
   private static HashMap<String, PilajeStack> stack_map = new HashMap<String, PilajeStack>();
+  static final PilajeStack macroStack = new PilajeStack("MACROSTACK");
   static PilajeStack currentStack = null;
   
   public static void initialize() {
@@ -595,7 +596,7 @@ public class Parser {
         run_word(word);
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
-      //ex.printStackTrace();
+      ex.printStackTrace();
       System.out.println("  >> ERROR: Something went wrong.  Reverting all stacks to previous state.");
     }
     
@@ -622,8 +623,11 @@ public class Parser {
     if(token != null) {
       if(token instanceof Builtin) ((Builtin)token).exec();
       else if(token instanceof Macro) {
-        run_input(((Macro)token).contents);
-        remove_temp_stacks();
+        Macro m = (Macro)token;
+        macroStack.push(m.name);
+        run_input(m.contents);
+        remove_temp_stacks(m.name);
+        macroStack.pop();
       }
       return;
     }
@@ -639,16 +643,20 @@ public class Parser {
     return;
   }
   
-  private static void remove_temp_stacks() {
+  private static void remove_temp_stacks(String name) {
     for(String s : stack_map.keySet())
       try {
-        if(s.startsWith("$___")) remove_stack(s);
+        if(s.startsWith("$___") && s.endsWith("$$_" + name)) remove_stack(s);
       } catch (Exception ex) {}
   }
   
   private static void execute_xfer(String word) throws Exception {
     String[] components = word.split("\\$", 2);
-    PilajeStack target = stack_map.get("$" + components[1]);
+    PilajeStack target;
+    if(components[1].startsWith("$___") && macroStack.peek() != null) 
+      target = stack_map.get("$" + components[1] + "$$_" + macroStack.peek());
+    else
+      target = stack_map.get("$" + components[1]);
     // from target to current
     if(components[0].contains("<")) {
       if(target == null) {
@@ -663,7 +671,7 @@ public class Parser {
     else if (components[0].contains(">")) {
       if(components[0].contains("--")) run_input("dup");
       if(target == null) {
-        target = new PilajeStack("$" + components[1]);
+        target = new_stack("$" + components[1]);
         stack_map.put(target.name, target);
       }
       target.push(currentStack.pop());      
@@ -699,12 +707,22 @@ public class Parser {
     if(o instanceof Macro) token_map.remove(word);
   }
   
+  private static PilajeStack new_stack(String name) {
+    if(macroStack.peek() != null)
+      name = name + "$$_" + macroStack.peek();
+    return new PilajeStack(name);
+  }
+      
+  
   private static void change_stack(String word) {
+    String name = word;
+    if(macroStack.peek() != null) 
+        name = name + "$$_" + macroStack.peek();
     PilajeStack s = stack_map.get(word);
     if(s == null) {
-      s = new PilajeStack(word);
-      stack_map.put(word, s);
+      s = new_stack(word);
+      stack_map.put(name, s);
     }
-    currentStack = stack_map.get(word);
+    currentStack = stack_map.get(name);
   }
 }
