@@ -26,9 +26,10 @@ public class Util {
               name.contains("(")  || name.contains(")")  ||
               name.contains("#")  || name.contains("\"") ||
               name.contains("~")  || name.contains("->") ||
-              name.contains("<-") || name.length() < 1   || 
-              is_number(name)     || is_bool(name)       ||
-              is_anonmacro(name)  || is_string(name)));
+              name.contains("<-") || name.contains("\\") ||
+              name.length() < 1   || is_number(name)     || 
+              is_bool(name)       || is_anonmacro(name)  || 
+              is_string(name)));
   }
   
   static boolean is_deletion(String word) {
