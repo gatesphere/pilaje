@@ -8,12 +8,14 @@ import suschord.pilaje.*;
 import java.util.*;
 import java.util.regex.*;
 import java.io.*;
+import java.util.concurrent.*;
 
 public class Parser {
-  private static HashMap<String, Object> token_map = new HashMap<String, Object>();
-  private static HashMap<String, PilajeStack> stack_map = new HashMap<String, PilajeStack>();
+  private static ConcurrentHashMap<String, Object> token_map = new ConcurrentHashMap<String, Object>();
+  private static ConcurrentHashMap<String, PilajeStack> stack_map = new ConcurrentHashMap<String, PilajeStack>();
   static final PilajeStack macroStack = new PilajeStack("MACROSTACK");
   static PilajeStack currentStack = null;
+  static final Random rng = new Random();
   
   public static void initialize() {
     // create initial stack
@@ -592,8 +594,12 @@ public class Parser {
     // run each word
     for(PilajeStack ps : stack_map.values()) ps.backup();
     try{
-      for(String word : words2)
+      for(String word : words2) {
+        //System.out.println("  DEBUG TRACE: running word " + word);
+        //System.out.println("  DEBUG TRACE: macroStack = " + macroStack);
+        //System.out.println("  DEBUG TRACE: stack_map.keySet = " + stack_map.keySet());
         run_word(word);
+      }
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
       ex.printStackTrace();
@@ -624,10 +630,10 @@ public class Parser {
       if(token instanceof Builtin) ((Builtin)token).exec();
       else if(token instanceof Macro) {
         Macro m = (Macro)token;
-        macroStack.push(m.name);
+        macroStack.push(m.name + "_##" + Math.abs(rng.nextInt()));
         run_input(m.contents);
-        remove_temp_stacks(m.name);
-        macroStack.pop();
+        //System.out.println("  DEBUG TRACE: Exiting macro call: " + macroStack.peek());
+        remove_temp_stacks(macroStack.pop().toString());
       }
       return;
     }
@@ -653,7 +659,7 @@ public class Parser {
   private static void execute_xfer(String word) throws Exception {
     String[] components = word.split("\\$", 2);
     PilajeStack target;
-    if(components[1].startsWith("$___") && macroStack.peek() != null) 
+    if(components[1].startsWith("___") && macroStack.peek() != null) 
       target = stack_map.get("$" + components[1] + "$$_" + macroStack.peek());
     else
       target = stack_map.get("$" + components[1]);

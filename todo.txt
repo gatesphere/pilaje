@@ -2,7 +2,8 @@ to do:
 
 User input
 
-Isolate temp stacks during macro execution, i.e. $___temp in :foo != $___temp in :bar.
+Temp stacks that have larger scope: -> $_ is visible to all, $__ is visible to 
+self and child macros, and $___ is visible only to self.  Already have the last one.
 
 Expression replacement in macros: something like &0 would mean "the value at top of the stack"
 such that

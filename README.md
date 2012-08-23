@@ -198,7 +198,9 @@ their name, such as `~$a`, which will delete the `$a` stack.
 
 **Transferring information between stacks**
 You can move data between stacks with 4 built in transfer words.  Here, `$stackname`
-means the name of the target stack.
+means the name of the target stack.  If you try to pull from a non-existant stack,
+you'll get an error.  If you try to move to a non-existant stack, it's created
+automatically for you.
 
 Word          | Action
 --------------|-------
@@ -206,6 +208,19 @@ Word          | Action
 -->$stackname | Copy the top of the current stack and push that to the target stack
 <-$stackname  | Pop the target stack and push that to the current stack
 <--$stackname | Copy the top of the target stack and push that to the current stack
+
+**Temporary stacks for macros**
+Macros can use temporary stacks to communicate information to themselves or
+other macro calls.  These temporary stacks are deleted as soon as their parent
+macro exits, and have varying scopes depending on how they're named.  You create
+them like any other stack, except you start their name with a number of underscore
+(`_`) characters defining their scope.
+
+Stack name prefix      | Scope
+-----------------------+------
+`$_` (1 underscore)    | Global: all macros can see this stack.
+`$__` (2 underscores)  | Child: the parent and all children can see this stack.
+`$___` (3 underscores) | Self: only the parent macro can see this stack.
 
 **Defining macros**
 You can define a macro by prefacing it's name with a `:` character, and then 

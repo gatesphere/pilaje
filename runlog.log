@@ -1,0 +1,322 @@
+  DEBUG TRACE: running word "test/test.pilaje"
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word !import
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word "test: reverse"
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word .
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+"test: reverse"
+  DEBUG TRACE: running word cls
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 2
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 3
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 4
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word reverse
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word #(->$___temp_1)
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word tuck
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word swap
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word over
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word call
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word ->$___temp_1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word tuck
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word swap
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word over
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word call
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word ->$___temp_1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word tuck
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word swap
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word over
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word call
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word ->$___temp_1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word tuck
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word swap
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word over
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word call
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word ->$___temp_1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: running word pop
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1048075806, foreach_##112476329, foreach_##908018971, foreach_##213284695, foreach_##303758918]<=
+  DEBUG TRACE: stack_map.keySet = [$___temp_1$$_foreach_##908018971, $___temp_1$$_foreach_##112476329, $___temp_1$$_foreach_##1048075806, $main, $___temp_1$$_foreach_##213284695]
+  DEBUG TRACE: Exiting macro call: foreach_##303758918
+  DEBUG TRACE: Exiting macro call: foreach_##213284695
+  DEBUG TRACE: Exiting macro call: foreach_##908018971
+  DEBUG TRACE: Exiting macro call: foreach_##112476329
+  DEBUG TRACE: Exiting macro call: foreach_##1048075806
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word $___temp_1
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main]
+  DEBUG TRACE: running word #(->$___temp_2)
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word pop
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##1452158731]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: Exiting macro call: foreach_##1452158731
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word $___temp_2
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703]
+  DEBUG TRACE: running word #(->$main)
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word foreach
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word sz
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word 1
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word =
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word #(tuck call foreach)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word #(pop)
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word if
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word pop
+  DEBUG TRACE: macroStack = [reverse_##639277703, foreach_##192941239]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: Exiting macro call: foreach_##192941239
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word 
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: running word $main
+  DEBUG TRACE: macroStack = [reverse_##639277703]<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+  DEBUG TRACE: Exiting macro call: reverse_##639277703
+  DEBUG TRACE: running word ...
+  DEBUG TRACE: macroStack = []<=
+  DEBUG TRACE: stack_map.keySet = [$main, $___temp_1$$_reverse_##639277703, $___temp_2$$_reverse_##639277703]
+null

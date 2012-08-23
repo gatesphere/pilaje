@@ -18,10 +18,15 @@
 :reverse \
   #(->$___temp_1) foreach \
   $___temp_1 #(->$___temp_2) foreach \
-  $___temp_2 #(->$main) foreach\
+  $___temp_2 #(->$main) foreach \
   $main
 
 // test
+"test: sum_stack (21)" . cls
 1 2 3 4 3 5 3 sum_stack . cls
+
+"test: avg_stack (3)" . cls
 1 2 3 4 3 5 3 avg_stack . cls
+
+"test: reverse ([4.0, 3.0, 2.0, 1.0]<=)" . cls
 1 2 3 4 reverse ...
