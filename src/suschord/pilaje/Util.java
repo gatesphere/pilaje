@@ -17,7 +17,20 @@ public class Util {
             components[0].equals("->")  ||
             components[0].equals("<--") || 
             components[0].equals("<-")) &&
-           is_valid_name(components[1]);      
+           (is_valid_name(components[1]) || components[1].equals("!"));      
+  }
+  
+  static boolean is_relocation(String word) {
+    if(word.startsWith("&&"))
+      return (is_valid_name(word.substring(3)) ||
+              word.substring(3).equals("!"))   && 
+             word.substring(2,3).equals("$");
+    else if (word.startsWith("&"))
+      return (is_valid_name(word.substring(2)) ||
+              word.substring(2).equals("!"))   && 
+             word.substring(1,2).equals("$");
+    else
+      return false;
   }
   
   static boolean is_valid_name(String name) {
@@ -27,6 +40,7 @@ public class Util {
               name.contains("#")  || name.contains("\"") ||
               name.contains("~")  || name.contains("->") ||
               name.contains("<-") || name.contains("\\") ||
+              name.contains("&")  ||
               name.length() < 1   || is_number(name)     || 
               is_bool(name)       || is_anonmacro(name)  || 
               is_string(name)));

@@ -7,7 +7,7 @@ package suschord.pilaje;
 import suschord.pilaje.*;
 
 public class Main {
-  public static final String version = "pilaje 20120817"; 
+  public static final String version = "pilaje 20120824"; 
  
   private static boolean display_version = true;
   private static boolean exit_after_version = false;

@@ -19,13 +19,18 @@
   if
 
 // reverse stack
-:reverse \
+:reverse_old \
   $__temp_1 !prev \
   $__temp_2 !prev \
   #(->$__temp_1) foreach \
   $__temp_1 #(->$__temp_2) foreach \
   $__temp_2 #(->$main) foreach \
   $main
+  
+:reverse_new \
+  &$___temp $___temp \
+  #(->$!) foreach \
+  !callstack
 
 // test
 "test: sum_stack (21)" . cls
@@ -34,5 +39,8 @@
 "test: avg_stack (3)" . cls
 1 2 3 4 3 5 3 avg_stack . cls
 
-"test: reverse ([4.0, 3.0, 2.0, 1.0]<=)" . cls
-1 2 3 4 reverse ... cls
+"test: reverse_old ([4.0, 3.0, 2.0, 1.0]<=)" . cls
+1 2 3 4 reverse_old ... cls
+
+"test: reverse_new ([4.0, 3.0, 2.0, 1.0]<=)" . cls
+1 2 3 4 reverse_new ... cls

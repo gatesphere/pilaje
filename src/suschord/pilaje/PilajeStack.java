@@ -38,6 +38,21 @@ public class PilajeStack {
     return data.size();
   }
   
+  @SuppressWarnings("unchecked")
+  public Stack<Object> get_clone_data() {
+    return (Stack<Object>)data.clone();
+  }
+  
+  public void set_data(Stack<Object> d) {
+    data = d;
+  }
+  
+  public void push_whole_stack(Stack<Object> d) {
+    Object[] a = d.toArray();
+    for(int i = 0; i < a.length; i++)
+      data.push(a[i]);
+  }
+  
   public String toString() {
     Object[] stackval = data.toArray();
     StringBuilder sb = new StringBuilder("[");

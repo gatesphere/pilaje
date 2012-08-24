@@ -1,18 +1,13 @@
 to do:
 
+Comments in multi-line statements
+
+!callstack - proper handling?
+xfer commands: ->$! to move to !callstack
+relocation commands: &$! to move to !callstack
+
 User input
-
-Expression replacement in macros: something like &0 would mean "the value at top of the stack"
-such that
-
-    :move pop #(->$___temp) foreach $___temp #(->&0) foreach &0 
-    1 2 3 "$new" move
-
-would assign "$new" to &0, replace all copies of &0 in the macro with $new,
-and then pop the top bit of information, and move to a new stack, preserving
-order... $main = []<=, and $new = [1.0, 2.0, 3.0]<=
-&x would have no meaning outside of macros.
-
+Formatted stdout and stderr output
 
 network i/o
 file i/o
@@ -20,5 +15,3 @@ concurrency
   - coros (use a yield model, akin to Io)
   - futures (push an anonmacro to a stack, call stack as if it was a 
              macro, return immediately, block for completion at next access)
-
-documentation (mostly yank from pila)

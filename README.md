@@ -210,6 +210,15 @@ Word          | Action
 <-$stackname  | Pop the target stack and push that to the current stack
 <--$stackname | Copy the top of the target stack and push that to the current stack
 
+You can also duplicate entire stacks, or move the contents of one stack to
+another stack by using the builtin relocation commands.  Here, `$stackname`
+means the name of the target stack.
+
+Word         | Action
+-------------|-------
+&$stackname  | Move the contents of the current stack in order to the top of the target stack
+&&$stackname | Duplicate the contents of the current stack in order to the top of the target stack 
+
 **Temporary stacks for macros**
 Macros can use temporary stacks to communicate information to themselves or
 other macro calls.  These temporary stacks are deleted as soon as their parent

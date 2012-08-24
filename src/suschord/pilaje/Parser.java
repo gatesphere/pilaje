@@ -14,6 +14,7 @@ public class Parser {
   private static ConcurrentHashMap<String, Object> token_map = new ConcurrentHashMap<String, Object>();
   private static ConcurrentHashMap<String, PilajeStack> stack_map = new ConcurrentHashMap<String, PilajeStack>();
   static final PilajeStack macroStack = new PilajeStack("MACROSTACK");
+  static final PilajeStack callingStack = new PilajeStack("CALLINGSTACK");
   static PilajeStack currentStack = null;
   static PilajeStack previousStack = null;
   static final Random rng = new Random();
@@ -526,6 +527,12 @@ public class Parser {
         Parser.previousStack = temp;
       }
     });
+    token_map.put("!callstack", new Builtin("!callstack") {
+      public void exec() throws Exception {
+        Parser.previousStack = Parser.currentStack;
+        Parser.currentStack = (PilajeStack)Parser.callingStack.peek();
+      }
+    });
   }
   
   public static void run_input(String input) {
@@ -601,6 +608,7 @@ public class Parser {
     }
     
     // run each word
+    callingStack.push(currentStack);
     for(PilajeStack ps : stack_map.values()) ps.backup();
     try{
       for(String word : words2) {
@@ -611,24 +619,32 @@ public class Parser {
         System.out.println("  DEBUG TRACE: stack_map.keySet = " + stack_map.keySet());
         */
         run_word(word);
-        /*
+        
         for(String s : stack_map.keySet())
           System.out.println("  DEBUG TRACE: contents of stack " + s + ": " + stack_map.get(s));
         System.out.println("  DEBUG TRACE: currentStack = " + currentStack.name);
         System.out.println("  DEBUG TRACE: previousStack = " + previousStack.name);
-        */
+        
       }
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
-      ex.printStackTrace();
+      //ex.printStackTrace();
+      callingStack.empty();
+      macroStack.empty();
       System.out.println("  >> ERROR: Something went wrong.  Reverting all stacks to previous state.");
     }
-    
+    callingStack.pop();
   }
   
   private static void run_word(String word) throws Exception {
     // is it anything at all?
     if(word.trim().length() == 0) return;
+    
+    // is it a relocation command?
+    if(Util.is_relocation(word)) {
+      execute_relocation(word);
+      return;
+    }
     
     // is it a xfer command?
     if(Util.is_xfer(word)) {
@@ -679,6 +695,8 @@ public class Parser {
     PilajeStack target;
     if(components[1].startsWith("_") && macroStack.peek() != null) 
       target = get_scoped_stack("$" + components[1]);
+    else if(components[1].equals("!")) 
+      target = (PilajeStack)callingStack.peek();
     else
       target = stack_map.get("$" + components[1]);
     // from target to current
@@ -700,6 +718,21 @@ public class Parser {
       }
       target.push(currentStack.pop());      
     }
+  }
+  
+  private static void execute_relocation(String word) throws Exception {
+    PilajeStack target;
+    String name;
+    if(word.startsWith("&&")) name = word.substring(2);
+    else name = word.substring(1);
+    if(name.equals("$!")) target = (PilajeStack)callingStack.peek();
+    else target = get_scoped_stack(name);
+    if(target == null) {
+      target = new_stack(name);
+      stack_map.put(target.name, target);
+    }
+    target.push_whole_stack(currentStack.get_clone_data());
+    if(!word.startsWith("&&")) currentStack.empty(); 
   }
   
   private static void execute_deletion(String word) throws Exception {
