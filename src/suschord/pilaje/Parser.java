@@ -15,12 +15,14 @@ public class Parser {
   private static ConcurrentHashMap<String, PilajeStack> stack_map = new ConcurrentHashMap<String, PilajeStack>();
   static final PilajeStack macroStack = new PilajeStack("MACROSTACK");
   static PilajeStack currentStack = null;
+  static PilajeStack previousStack = null;
   static final Random rng = new Random();
   
   public static void initialize() {
     // create initial stack
     stack_map.put("$main", new PilajeStack("$main"));
     currentStack = stack_map.get("$main");
+    previousStack = currentStack;
     
     // populate builtins
     // printing
@@ -517,6 +519,13 @@ public class Parser {
         REPL.get_script_input(filename);
       }
     });
+    token_map.put("!prev", new Builtin("!prev") {
+      public void exec() throws Exception {
+        PilajeStack temp = Parser.currentStack;
+        Parser.currentStack = Parser.previousStack;
+        Parser.previousStack = temp;
+      }
+    });
   }
   
   public static void run_input(String input) {
@@ -595,10 +604,19 @@ public class Parser {
     for(PilajeStack ps : stack_map.values()) ps.backup();
     try{
       for(String word : words2) {
-        //System.out.println("  DEBUG TRACE: running word " + word);
-        //System.out.println("  DEBUG TRACE: macroStack = " + macroStack);
-        //System.out.println("  DEBUG TRACE: stack_map.keySet = " + stack_map.keySet());
+        /*
+        System.out.println("DEBUG TRACE: running word " + word);
+        System.out.println("  DEBUG TRACE: currentStack = " + currentStack.name + " previousStack = " + previousStack.name);
+        System.out.println("  DEBUG TRACE: macroStack = " + macroStack);
+        System.out.println("  DEBUG TRACE: stack_map.keySet = " + stack_map.keySet());
+        */
         run_word(word);
+        /*
+        for(String s : stack_map.keySet())
+          System.out.println("  DEBUG TRACE: contents of stack " + s + ": " + stack_map.get(s));
+        System.out.println("  DEBUG TRACE: currentStack = " + currentStack.name);
+        System.out.println("  DEBUG TRACE: previousStack = " + previousStack.name);
+        */
       }
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();
@@ -652,15 +670,15 @@ public class Parser {
   private static void remove_temp_stacks(String name) {
     for(String s : stack_map.keySet())
       try {
-        if(s.startsWith("$___") && s.endsWith("$$_" + name)) remove_stack(s);
+        if(s.startsWith("$_") && s.endsWith("$$_" + name)) remove_stack(s);
       } catch (Exception ex) {}
   }
   
   private static void execute_xfer(String word) throws Exception {
     String[] components = word.split("\\$", 2);
     PilajeStack target;
-    if(components[1].startsWith("___") && macroStack.peek() != null) 
-      target = stack_map.get("$" + components[1] + "$$_" + macroStack.peek());
+    if(components[1].startsWith("_") && macroStack.peek() != null) 
+      target = get_scoped_stack("$" + components[1]);
     else
       target = stack_map.get("$" + components[1]);
     // from target to current
@@ -714,7 +732,7 @@ public class Parser {
   }
   
   private static PilajeStack new_stack(String name) {
-    if(macroStack.peek() != null)
+    if(name.startsWith("$_") && macroStack.peek() != null)
       name = name + "$$_" + macroStack.peek();
     return new PilajeStack(name);
   }
@@ -722,13 +740,51 @@ public class Parser {
   
   private static void change_stack(String word) {
     String name = word;
-    if(macroStack.peek() != null) 
-        name = name + "$$_" + macroStack.peek();
-    PilajeStack s = stack_map.get(word);
+    PilajeStack s = get_scoped_stack(word);
     if(s == null) {
+      //System.out.println("  DEBUG TRACE: get_scoped_stack returned null");
+      if(name.startsWith("$_") && macroStack.peek() != null)
+        name = name + "$$_" + macroStack.peek();
       s = new_stack(word);
       stack_map.put(name, s);
     }
-    currentStack = stack_map.get(name);
+    previousStack = currentStack;
+    currentStack = s;
+  }
+  
+  private static PilajeStack get_scoped_stack(String name) {
+    if(name.startsWith("$_") && macroStack.peek() != null) {
+      if(name.startsWith("$___")) name = name + "$$_" + macroStack.peek();
+      else if (name.startsWith("$__")) {
+        // look backwards up the macroStack
+        macroStack.backup();
+        boolean found = false;
+        while(macroStack.size() > 0 && !found) {
+          String x = macroStack.pop().toString();
+          if(stack_map.get(name + "$$_" + x) != null) {
+            name = name + "$$_" + x;
+            found = true;
+          }
+        }
+        macroStack.rollback();
+        if(!found) name = name + "$$_" + macroStack.peek();
+      } else {
+        // find globally scoped $_ stack
+        macroStack.backup();
+        macroStack.reverse();
+        boolean found = false;
+        while(macroStack.size() > 0 && !found) {
+          String x = macroStack.pop().toString();
+          if(stack_map.get(name + "$$_" + x) != null) {
+            name = name + "$$_" + x;
+            found = true;
+          }
+        }
+        macroStack.rollback();
+        if(!found) name = name + "$$_" + macroStack.peek();
+      }
+    }
+    //System.out.println("  DEBUG TRACE: get_scoped_stack final name = " + name);
+    return stack_map.get(name);
   }
 }

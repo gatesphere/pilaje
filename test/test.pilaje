@@ -12,13 +12,19 @@
   /
 
 // do something for every element of a stack
-:foreach sz 1 = #(tuck call foreach) #(pop) if
+:foreach \
+  sz 1 = \
+  #(tuck call foreach) \
+  #(pop) \
+  if
 
 // reverse stack
 :reverse \
-  #(->$___temp_1) foreach \
-  $___temp_1 #(->$___temp_2) foreach \
-  $___temp_2 #(->$main) foreach \
+  $__temp_1 !prev \
+  $__temp_2 !prev \
+  #(->$__temp_1) foreach \
+  $__temp_1 #(->$__temp_2) foreach \
+  $__temp_2 #(->$main) foreach \
   $main
 
 // test
@@ -29,4 +35,4 @@
 1 2 3 4 3 5 3 avg_stack . cls
 
 "test: reverse ([4.0, 3.0, 2.0, 1.0]<=)" . cls
-1 2 3 4 reverse ...
+1 2 3 4 reverse ... cls

@@ -184,6 +184,7 @@ if      | Pops the top three items from the stack (c, t, e), and if c == true, e
 !macros | Lists defined macros.
 !stacks | Lists all stacks and their current size.
 !import | Pops the top item (n) from the stack and reads in the script file whose name is n.
+!prev   | Change back to your previous stack.
 
 **Creating new stacks**
 Pilaje creates one stack upon startup, `$main`.  You can create as many other stacks

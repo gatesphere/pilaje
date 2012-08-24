@@ -58,4 +58,11 @@ public class PilajeStack {
     data = backup_data;
     backup_data = null;
   }
+  
+  public void reverse() {
+    Object[] a = data.toArray();
+    data = new Stack<Object>();
+    for(int i = a.length - 1; i >= 0; i--)
+      data.push(a[i]);
+  }
 }
