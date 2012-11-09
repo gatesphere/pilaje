@@ -619,12 +619,12 @@ public class Parser {
         System.out.println("  DEBUG TRACE: stack_map.keySet = " + stack_map.keySet());
         */
         run_word(word);
-        
+        /*
         for(String s : stack_map.keySet())
           System.out.println("  DEBUG TRACE: contents of stack " + s + ": " + stack_map.get(s));
         System.out.println("  DEBUG TRACE: currentStack = " + currentStack.name);
         System.out.println("  DEBUG TRACE: previousStack = " + previousStack.name);
-        
+        */
       }
     } catch (Exception ex) {
       for(PilajeStack ps : stack_map.values()) ps.rollback();

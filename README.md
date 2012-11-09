@@ -83,7 +83,7 @@ and more portable, such as:
     * pause
     * !stacks
     * !export (planned)
-  * Macro and ntack name validation
+  * Macro and stack name validation
   * Proper string handling (including escaped characters and space preservation...)
   * User input (planned)
   * File I/O (planned)
@@ -227,7 +227,7 @@ them like any other stack, except you start their name with a number of undersco
 (`_`) characters defining their scope.
 
 Stack name prefix      | Scope
------------------------+------
+-----------------------|------
 `$_` (1 underscore)    | Global: all macros can see this stack.
 `$__` (2 underscores)  | Child: the parent and all children can see this stack.
 `$___` (3 underscores) | Self: only the parent macro can see this stack.
